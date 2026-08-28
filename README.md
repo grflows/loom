@@ -1,7 +1,7 @@
 # Loom
-A tiny language transpiled to C++. 
+A tiny lua-like language transpiled to Lua using python.
 
-Why python? I wanted to make my own programming language, but don't have the head to implement a compiler in any other language.
+But why? because atm I can't handle all the complexity that comes with language design.
 
 ## TODO 
 - [ ] Hello World!

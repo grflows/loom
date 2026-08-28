@@ -1,0 +1,25 @@
+TOP_RIGHT = "┌"
+PIPE = "│"
+BOTTOM_RIGHT = "└"
+HORIZONTAL = "─"
+TOP_RIGHT_CURVED = "╭"
+BOTTOM_RIGHT_CURVED = "╰"
+BRANCH_RIGHT = "├"
+BOTTOM_LEFT = "┤"
+BOTTOM_LEFT = "┘"
+TOP_LEFT = "┐"
+
+
+CHECK = "✓"
+CROSS = "✗"
+WARNING = "⚠"
+POINTER = "›"
+POINTER_SMALL = ">"
+BULLET = "•"
+DIAMOND = "◆"
+STAR = "★"
+
+ERROR = "⊗"
+SUCCESS = "●"
+FAILED = "○"
+

@@ -1,0 +1,19 @@
+import sys
+import os
+import lexer
+import err_triage
+
+def main():
+    file_name = sys.argv[1]
+    if os.path.exists(file_name):
+        ext = os.path.splitext(file_name)[1]
+        if ext == ".lm":
+            #lexer.lex(file_name)
+            pass
+        else:
+            file_name = file_name.replace(ext, f"{ext}")
+            err_triage.tof("CLI003", "SEM", 1, [f"given: {file_name}", "expected: files ending in .lm"])
+    else:
+        err_triage.tof("CLI002", "SEM", 0, f"given: {file_name}")
+
+main()

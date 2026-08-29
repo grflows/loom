@@ -4,6 +4,9 @@ import lexer
 import err_triage
 
 def main():
+    if len(sys.argv) != 2:
+        err_triage.tof("CLI001", "SEM", 0, "usage: loom.py <file_name.lm>")
+        exit()
     file_name = sys.argv[1]
     if os.path.exists(file_name):
         ext = os.path.splitext(file_name)[1]

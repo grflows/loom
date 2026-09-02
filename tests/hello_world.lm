@@ -3,5 +3,4 @@
 func main(none) -> int
   print("hello world\n")
 end func
-
 // also a comment :)

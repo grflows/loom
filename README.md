@@ -1,5 +1,5 @@
 # Loom
-A tiny lua-like language transpiled to Lua using python.
+A tiny lua-like language transpiled to JavaScript using python.
 
 But why? because atm I can't handle all the complexity that comes with language design.
 

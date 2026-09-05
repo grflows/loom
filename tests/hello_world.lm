@@ -1,6 +1,0 @@
-#import <std> // this is a comment
-
-func main(none) -> int
-  print("hello world\n")
-end func
-// also a comment :)

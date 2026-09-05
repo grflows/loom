@@ -6,5 +6,6 @@ ERRSDICT = {
     # ========================================
     # ============== lexer ===================
     # ========================================
-    "GRM001": "invalid first expression"
+    "GRM001": "invalid first expression",
+    "GRM002": "missing or misspelled expression",
 }

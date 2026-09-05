@@ -1,7 +1,7 @@
 
 str[] tasks
 
-func renderTasks(void) -> void
+fn renderTasks()
   str html
   int i = 0
   for i; i < tasks.len; i++
@@ -10,7 +10,7 @@ func renderTasks(void) -> void
   getElementById("list").innerHTML = html
 end
 
-func addTask(void) -> void
+fn addTask()
   map taskInput to getElementById("task")
   str text = taskInput.value
   if text == ""
@@ -22,23 +22,23 @@ func addTask(void) -> void
   displayTasks()
 end
 
-func removeTask(int i) -> void
+fn removeTask(int i)
   tasks.splice(i, 1)
   saveTasks()
   renderTasks()
 end
 
-func clearAll(void) -> void
+fn clearAll()
   tasks = []
   saveTasks()
   renderTasks()
 end
 
-func saveTasks(void) -> void
+fn saveTasks()
   localStorage.setItem("tasks", json.str(tasks))
 end
 
-func loadTasks(void) -> void
+fn loadTasks()
   eval r of localStorage.getItem("tasks")
   ? str >> json.parse(r) >> tasks
   ? null >> _

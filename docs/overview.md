@@ -1,135 +1,125 @@
-## introduction
-Loom is basically a statically-typed lua-like skin for js. As such it is transpiled to standard js code.
-Loom aims to be simple, that's it.
+# overview
+loom is a simple language that transpiles into js.
 
-## the basics
+## importing 
 
-### hello world
-just print it. The syntax is lua-like.
+use math
+use threejs
+use custom-style.css as st // button.style = st.gradient // just copies from the style file
+use elements-snippets.html as sn // button.innerhtml = sn.flashy-button // just coppies the scope from html
 
-``` js
-print "Hello world"
-```
+## vars
+int x 
+int y = 9
+str name 
 
-### vars
-Loom is statically-typed.
-declare a var just like in any other lang.
+## functions 
+### typical function
+fn foo(int bar) -> int
+  // do something
+  return bar2
+end
 
-``` c
-int number
-str name = "foo"
-err error
-```
+### simple function
+fn foo()
+  // do something
+end
 
-### control flow
-same as lua
-``` lua
-if condition
-  // do
+### lambda functions
+int x(y, z) -> (y + z * 10) / 2 // these are always a single type functions
+bool j(n, y) -> n && t 
+str mix(name1, name2) -> name1[0] + name2[0] + name1[:0]
+fn btn(arg) -> foo(arg) bar(arg) // fn is a callable type. This can only call functions, never returns a thing.
+
+## control flow 
+### if else 
+#### simple if else
+
+if x == 0
+  // do something
 else
-  // do something else
-end
-```
-
-### comments 
-
-// this is a comment
-
-
-## new features
-some features to make js a bit more fun 
-
-### objects mapping
-to js, everything is an object, even DOM elements. So I made mapping easier.
-
-instead of:
-```js
-
-const playbtn = document.getElementById('play');
-```
-
-loom uses:
-``` lua  
-
-map playbtn to objWithId('play')
-```
-
-you can even batch map them:
-``` c
-
-map
-  playbtn objWithId('play')
-  prevbtn objWithId('previous')
-  nextbtn objWithId('next')
-end
-  ```
-
-you get the idea.
-
-### eval keyword and type checking
-use the eval keyword to evaluate a statement get the result, optionally pass it through a type checker using ?, or pipe it directly where you want.
-
-For example:
-
-``` c
-int bar
-eval foo() + 99
-| bar // pipe foo's output to bar
-
-// or if you want to typecheck it
-eval foo() + 99
-? int >> bar
-? err >> handle_err(err) // err is both a type and an var
-
-// another example
-eval r of fetch(url) // use an intermediate var when passing to a function
-? json >> parseApiResponse(r)
-? err  >> handle_err(err)
-
-// another one 
-eval r,x of db.getUser(userID)
-? str, int >> loadUserDate(r, x)
-? err      >> data_base_fallback(err)
-```
-
-
-### debugging annotations
-basically a fancy print for various cases
-
-```c 
-int x
-x = randInt(100) ?var // prints x's current value
-
-eval foo(bar) ?val // prints foo's return
-? int >> x
-
-int y ?mut // prints every y mutation
-
-foo(bar1, bar2, bar3) ?val // prints the function's current args 
-
-func foo(int bar) -> void ?call // prints every call to foo()
-  // something
+  // do something
 end
 
-foo(bar) ?trace // traces the last function call
+// if else
+if y == 0
+  // do something
+else if y == 1 
+  // do something
+else 
+  // do something
+end
+#### single liner aka ternary ops
+int x 
+x(name == "Tim") = 22 else 19
+str group(age < 18) = "child" else "adult"
+int secret(encrypt_flag) = hash(id) else id // you can call functions in conditional assignments
 
-int secret = 1149193843 ?read // prints every time secret is accessed
+#### switch statements
+str msg
+switch arch
+  case "arm32"
+    msg = "32 bit"
+  case "amd64", "wasm64p32", "arm64" // you can have multiple case checks
+    msg = "64 bit"
+  case other // the other keyword is the default fallback
+    msg = "unknow architecture"
+end
 
-someWeirdfunc(arg1, arg2, arg3) ?type // prints the types expected and types returned
+#### loops
+##### for loop
+int[] list = \[1 .. 10]
+for i in list
+  // do something
+end
 
-_ = someWeirdvar ?type // prints the type of the var
-// also _ is meant as a temp typeless var
+// or more simply
+for i in \[1 .. 100]
+  // do something
+end
+
+##### while loop
+// simple while
+while flag 
+  // do something
+end
+
+// complex while
+while i(i < 10) = i+2 // while checks for the internal condition
+  // do something
+end
 
 
-```
+
+## unique features
+
+### tiny features
+#### DOM elements mapping
+map plybtn to objwithId('player') // simply map to DOM elements
+
+map // batch map
+  nxtbtn objwithId('next')
+  prvbtn objwithId('previous')
+  pusbtn objwithId('pause')
+end
+
+#### string formatting
+str greet = f"hello {userName}" // python style formatting
+
+#### eval 
+eval r of fetch(url)
+  ? json >> response_parse(r) ? err >> parse_error(err) // if fn returns err, you must handle it in every call
+  ? err >> fetch_error(err)
 
 ### raw js 
-for when you want to write js directly
-```c 
-
+// simple raw
 raw
-  // your js code, can use all vars and funcs in loom
+  // write your raw js code here
 end
-```
 
+### debug annotations
+? val, read, call, trace, mut, type
 
+### compile-time directives aka less ugly macros
+#unroll (unrolls a loops and switches)
+#defer (like odin's)

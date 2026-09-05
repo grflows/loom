@@ -1,0 +1,69 @@
+struct weatherApi {
+  str key "4eb3703790b356562054106543b748b2"
+  str baseUrl "https://api.openweathermap.org/data/2.5/weather"
+  }
+
+map searchInputBox to getElementById('input-box') // map x to objWithId(...) is better
+when searchInputBox gets keypress
+  if keypress == ENTER 
+    getWeatherReport(searchInputBox.value)
+  end 
+end
+
+// get weather report 
+
+func getWeatherReport(str city) -> void
+  str q = format "{weatherApi.baseUrl}?q={city}&appid={weatherApi.key}&units=metric"
+  eval r of fetch(q)
+  ? json >> showWeatherReport(r) ?val // logs weather 
+  ? err  >> handle_err(r)
+end
+
+func showWeatherReport(json weather) -> void
+  match weather.cod ?val // logs cod
+    case "400"
+      swal("Empty Input", "Please enter any city", "error")
+      reset()
+    case "404"
+      swal("Bad Input", "entered city didn't match", "warning")
+      reset()
+    case other
+
+    map weatherBody to getElementById("weather-body")
+    map parent to getElementById("parent")
+    weatherBody.style.display = "block"
+    date todayDate = Date()
+    weatherBody.innerHTML = format snipt("weather-body.html")
+    parent.append(weather-body)
+    changeBg(weather.weather[0].main)
+    reset()
+  end
+end
+
+func getTime(todayDate) -> str
+  return format "{todayDate.hour()}: {todayDate.minutes()}"
+end
+
+func dateManage(dateArg) -> str
+  str[] days = ["sunday", "monday"] // etc
+  str[] months = ["january", "february"] // etc
+  str year = dateArg.getfullYear()
+  // blah blah
+end
+
+func changeBg(status) -> void
+  map bg to body.style.backgroundImage
+  eval r of bg = format "url(img/{staus}.jpg)"
+  ? err >> bg = "url(img/default.jpg)"
+  ? str >> _
+end
+
+func getIconClass(classarg) -> str
+  return "fa fa-cloud-sun"
+  // a bunch of if-elses
+end
+
+func rest(void) -> void
+  map input to getElementById("input-box")
+  input.value = ""
+end

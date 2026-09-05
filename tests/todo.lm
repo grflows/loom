@@ -1,0 +1,48 @@
+
+str[] tasks
+
+func renderTasks(void) -> void
+  str html
+  int i = 0
+  for i; i < tasks.len; i++
+    html += format "<li> {tasks[i]} <button onclick='removeTask({i})>x</botton></li>"
+  end
+  getElementById("list").innerHTML = html
+end
+
+func addTask(void) -> void
+  map taskInput to getElementById("task")
+  str text = taskInput.value
+  if text == ""
+    return
+  end
+  tasks.push(text)
+  taskInput.value = ""
+  saveTasks()
+  displayTasks()
+end
+
+func removeTask(int i) -> void
+  tasks.splice(i, 1)
+  saveTasks()
+  renderTasks()
+end
+
+func clearAll(void) -> void
+  tasks = []
+  saveTasks()
+  renderTasks()
+end
+
+func saveTasks(void) -> void
+  localStorage.setItem("tasks", json.str(tasks))
+end
+
+func loadTasks(void) -> void
+  eval r of localStorage.getItem("tasks")
+  ? str >> json.parse(r) >> tasks
+  ? null >> _
+end
+
+loadTasks()
+displayTasks()
